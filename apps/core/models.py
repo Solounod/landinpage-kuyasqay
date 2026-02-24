@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from .utils import optimize_image
 
 class TimeStampedModel(models.Model):
     """Modelo abstracto para guardar la fecha de creación y actualización."""
@@ -19,6 +21,14 @@ class HeroImage(models.Model):
         verbose_name = "Imagen de Portada"
         verbose_name_plural = "Imágenes de Portada (Hero)"
         ordering = ['order']
+
+    def save(self, *args, **kwargs):
+        if self.image and getattr(self.image, 'name', None):
+            if not self.image.name.lower().endswith('.webp'):
+                optimized_file = optimize_image(self.image, max_width=1600)
+                if optimized_file:
+                    self.image = optimized_file
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title if self.title else f"Imagen Portada {self.id}"
@@ -74,6 +84,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products_gallery/', verbose_name="Foto")
     order = models.PositiveIntegerField(default=0, verbose_name="Orden")
+
     class Meta:
         verbose_name = "Imagen de Producto"
         verbose_name_plural = "Galería del Producto"
@@ -82,6 +93,25 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"Imagen de {self.product.name}"
 
+    def clean(self):
+        if hasattr(self, 'product') and self.product_id:
+            existing_images = ProductImage.objects.filter(product_id=self.product_id).count()
+            if self.pk is None and existing_images >= 8:
+                raise ValidationError("Límite alcanzado: Máximo 8 imágenes por carrusel")
+
+    def save(self, *args, **kwargs):
+        try:
+            self.full_clean()
+        except ValidationError:
+            pass
+        # OPTIMIZACIÓN DE IMAGEN
+        if self.image:
+            if not self.image.name.lower().endswith('.webp'):
+                optimized_file = optimize_image(self.image, max_width=1200)
+                if optimized_file:
+                    self.image = optimized_file        
+        
+        super().save(*args, **kwargs)
 # 5. PACKS / VARIANTES DE PRECIO
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='variants', on_delete=models.CASCADE)
@@ -107,6 +137,15 @@ class Review(TimeStampedModel):
         verbose_name = "Reseña"
         verbose_name_plural = "Reseñas de Clientes"
         ordering = ['-created_at']
+
+    
+    def save(self, *args, **kwargs):
+        if self.image and getattr(self.image, 'name', None):
+            if not self.image.name.lower().endswith('.webp'):
+                optimized_file = optimize_image(self.image, max_width=1600) 
+                if optimized_file:
+                    self.image = optimized_file
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Reseña de {self.client_name}"
