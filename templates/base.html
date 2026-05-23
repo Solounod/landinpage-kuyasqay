@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-cl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kuyasqay | Pastelería Artesanal en Talca{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#f5efe6',
+                        'brand-lila': '#c4b3dd',
+                        'brand-lightpurple': '#d3ccdb',
+                        'brand-dark': '#4a3933', // Un tono más café/cálido que el gris puro
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Smooth scrolling general */
+        html { scroll-behavior: smooth; }
+        
+        /* Ocultar barra de scroll en los carruseles manteniendo la funcionalidad */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        body { @apply bg-brand-cream text-brand-dark font-sans antialiased; }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-brand-cream text-brand-dark">
+
+    <nav class="w-full py-6 px-4 md:px-8 bg-brand-cream/90 backdrop-blur-md sticky top-0 z-50 border-b border-brand-dark/5">
+        <div class="max-w-7xl mx-auto flex justify-center items-center">
+            <a href="/" class="text-2xl md:text-3xl font-serif font-bold tracking-[0.2em] transition hover:opacity-80">KUYASQAY</a>
+        </div>
+    </nav>
+
+    <main class="flex-grow w-full">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="w-full py-12 px-4 text-center border-t border-brand-dark/10 mt-auto bg-brand-cream">
+        <div class="max-w-4xl mx-auto flex flex-col items-center justify-center gap-4">
+            <span class="text-2xl font-serif font-bold tracking-[0.2em] opacity-50 mb-2">KUYASQAY</span>
+            <p class="font-sans opacity-70 text-sm md:text-base">
+                © 2026 Kuyasqay Pastelería. Talca, Región del Maule.<br class="md:hidden"> Hecho con &hearts;
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

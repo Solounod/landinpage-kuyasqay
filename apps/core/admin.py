@@ -26,15 +26,8 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     inlines = [ProductVariantInline, ProductImageInline]
     
-    # Agrupamos los campos para que se vea más ordenado
-    fieldsets = (
-        ('Información Principal', {
-            'fields': ('category', 'name', 'description')
-        }),
-        ('Diseño y Reglas', {
-            'fields': ('background_color', 'min_order', 'is_active')
-        }),
-    )
+    fields = ('category', 'name', 'description', 'background_color', 'min_order', 'is_active')
+    
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
