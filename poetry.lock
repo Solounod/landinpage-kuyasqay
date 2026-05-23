@@ -52,6 +52,21 @@ argon2 = ["argon2-cffi (>=23.1.0)"]
 bcrypt = ["bcrypt (>=4.1.1)"]
 
 [[package]]
+name = "django-jazzmin"
+version = "3.0.2"
+description = "Drop-in theme for django admin, that utilises AdminLTE 3 & Bootstrap 5 to make yo' admin look jazzy"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "django_jazzmin-3.0.2-py3-none-any.whl", hash = "sha256:e847be81f9704ba70b740fa8378781bd1412e9d09772ba0e6a0c8b56fcdf84d4"},
+    {file = "django_jazzmin-3.0.2.tar.gz", hash = "sha256:cb247757b1e71f0c0f97d776856a32c3dd1377a7ffda6a731879cdc5e0e9ae89"},
+]
+
+[package.dependencies]
+django = ">=4.2"
+
+[[package]]
 name = "gunicorn"
 version = "25.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -319,4 +334,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12.3"
-content-hash = "ab67bce2b9523d04d67ba920faaab30de9f9683c328dcc77bd57d7745da0feaf"
+content-hash = "afe82fc6d23f55e9725d7e1cbeb83d3c9f54baf8740b0ea8cf471e1087bf1ab3"

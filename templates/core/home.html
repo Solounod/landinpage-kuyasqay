@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="w-full min-h-[85vh] flex flex-col md:flex-row bg-brand-cream border-b border-brand-dark/5">
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 md:py-0 text-center md:text-left">
+        <span class="font-sans font-bold tracking-[0.2em] text-xs md:text-sm text-[#5d4037] uppercase mb-10">
+            Kuyasqay . Dulce Corazón
+        </span>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-tight mb-16" style="text-wrap: balance;">
+            Pastelería artesanal<br> con identidad<br> maulina
+        </h1>
+        <div class="opacity-80 font-sans tracking-widest text-sm uppercase mb-12 flex flex-col items-center md:items-start md:ml-10">
+            <p class="mb-4">Producción limitada.</p>
+            <p class="normal-case tracking-normal text-xs md:text-sm">Elaboración artesanal en Talca, Región del Maule</p>
+        </div>
+        <a href="https://wa.me/56900000000" target="_blank" class="font-serif text-xl tracking-wide hover:opacity-70 transition-opacity mt-4 md:ml-10">
+            Agendar por WhatsApp
+        </a>
+    </div>
+
+    <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative bg-brand-cream overflow-hidden group">
+        <div class="flex overflow-x-auto snap-x snap-mandatory h-full w-full hide-scrollbar scroll-smooth">
+            {% if hero_images %}
+                {% for hero in hero_images %}
+                <div class="flex-none w-full h-full snap-center relative">
+                    <img src="{{ hero.image.url }}" alt="{{ hero.title }}" class="w-full h-full object-cover">
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="flex-none w-full h-full snap-center relative bg-black/5 flex items-center justify-center">
+                    <span class="font-serif opacity-50">Sube fotos de portada en el Admin</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="w-full bg-brand-cream py-32 px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-8 items-center justify-between">
+        <div class="w-full md:w-[40%] text-center md:text-left flex flex-col justify-center h-full">
+            <h2 class="text-5xl md:text-6xl font-serif leading-snug" style="text-wrap: balance;">
+                Más que pastelería, una<br> experiencia.
+            </h2>
+            <div class="mt-16 text-center md:text-left md:pl-8">
+                <a href="#" class="font-sans text-sm block mb-4 hover:underline">Link Instagram</a>
+                <a href="#catalogo" class="font-sans text-sm block">Conócenos aquí <span class="text-lg">👆🏻</span></a>
+            </div>
+        </div>
+        <div class="w-full md:w-[20%] flex justify-center items-center py-10 md:py-0">
+            <div class="w-48 h-48 md:w-64 md:h-64 relative flex items-center justify-center">
+                <div class="w-full h-full rounded-full border border-brand-lila/50 bg-white/40 flex items-center justify-center shadow-sm backdrop-blur-sm">
+                    <span class="font-sans text-xs uppercase tracking-widest text-center opacity-40">Espacio<br>Logo Picaflor</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-[40%] flex flex-col gap-12 md:pl-10 text-center md:text-left h-full justify-center">
+            <div>
+                <h3 class="font-serif text-2xl mb-3">Hecho con Kuyay Maki</h3>
+                <p class="font-sans text-lg font-light leading-relaxed opacity-90">Cada preparación es artesanal, cuidando textura, sabor y terminación, perfecta para decir estoy contigo.</p>
+            </div>
+            <div>
+                <h3 class="font-serif text-2xl mb-3">Identidad maulina</h3>
+                <p class="font-sans text-lg font-light leading-relaxed opacity-90">Somos una marca nacida en Talca, en el corazón de la región del Maule que honra el territorio y su esencia.</p>
+            </div>
+            <div>
+                <h3 class="font-serif text-2xl mb-3">Producción limitada</h3>
+                <p class="font-sans text-lg font-light leading-relaxed opacity-90">No trabajamos en masa. Cada pedido se agenda y se elabora con dedicación real.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="catalogo">
+{% if categories %}
+    {% for category in categories %}
+
+        {% if 'Alfajor' in category.name %}
+        <section class="w-full bg-brand-lightpurple py-24 px-8 md:px-12 lg:px-24">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif text-center mb-20 leading-tight" style="text-wrap: balance;">
+                    {{ category.name }}
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-24">
+                    {% for product in category.products.all %}
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-2xl {{ product.background_color }} shadow-soft transition-transform hover:-translate-y-1">
+                        
+                        <div class="w-full aspect-square bg-white shadow-sm mb-8 overflow-hidden rounded-xl relative group">
+                            <div class="h-full w-full flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+                                {% if product.images.all %}
+                                    {% for image_obj in product.images.all %}
+                                    <img src="{{ image_obj.image.url }}" class="w-full h-full object-cover flex-none snap-center" alt="{{ product.name }}">
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="w-full h-full flex items-center justify-center bg-black/5 opacity-50"><span class="italic">Sin imagen</span></div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <h4 class="font-sans font-bold tracking-[0.1em] uppercase text-lg mb-2">{{ product.name }}</h4>
+                        <p class="font-sans font-light text-[0.95rem] mb-6 opacity-80 leading-relaxed">{{ product.description }}</p>
+
+                        {% if product.variants.exists %}
+                        <ul class="font-sans font-light text-lg space-y-2 w-full mb-8">
+                            {% for variant in product.variants.all %}
+                            <li class="flex justify-between items-center border-b border-brand-dark/10 pb-1">
+                                <span><span class="opacity-50 text-sm mr-2">&bull;</span>{{ variant.name }}</span>
+                                <span class="font-medium">${{ variant.price }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <a href="https://wa.me/56900000000?text=Hola,%20quisiera%20encargar%20{{ product.name|urlencode }}" target="_blank" class="font-sans font-bold pb-1 border-b border-brand-dark hover:opacity-70 transition-opacity mt-auto uppercase tracking-wide text-sm">
+                            Encarga tu pack ahora 👆🏻
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-32 max-w-4xl mx-auto text-center border-t border-brand-dark/10 pt-24">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif leading-relaxed" style="text-wrap: balance;">
+                        El corazón de Kuyasqay.<br>
+                        <span class="font-light italic text-3xl md:text-4xl">Alfajores artesanales creados para transformar un regalo en memoria.</span>
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        {% elif 'Torta' in category.name %}
+        <section class="w-full flex flex-col">
+            {% for product in category.products.all %}
+            <div class="w-full min-h-[85vh] flex flex-col {% if forloop.counter|divisibleby:2 %}md:flex-row-reverse{% else %}md:flex-row{% endif %} {{ product.background_color }} border-t border-brand-dark/5">
+                
+                <div class="w-full md:w-1/2 h-[60vh] md:h-auto relative overflow-hidden group">
+                    <div class="flex overflow-x-auto snap-x snap-mandatory h-full w-full hide-scrollbar scroll-smooth">
+                        {% if product.images.all %}
+                            {% for image_obj in product.images.all %}
+                            <img src="{{ image_obj.image.url }}" class="w-full h-full object-cover flex-none snap-center" alt="{{ product.name }}">
+                            {% endfor %}
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-black/5 opacity-50"><span class="font-serif text-2xl">Galería</span></div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-center md:text-left">
+                    <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-relaxed mb-8" style="text-wrap: balance;">
+                        {{ product.name }}<br>
+                        <span class="text-3xl md:text-4xl italic font-light">Obras de autor</span>
+                    </h2>
+                    
+                    <div class="font-serif text-xl md:text-2xl space-y-6 leading-relaxed font-light mb-12 opacity-90" style="text-wrap: balance;">
+                        <p>{{ product.description }}</p>
+                        <p>No es producción masiva. <br>Es edición limitada.</p>
+                        <p>Aquí el sabor se vuelve mensaje. <br>El regalo se convierte en memoria.</p>
+                    </div>
+
+                    <a href="https://wa.me/56900000000?text=Hola,%20quisiera%20cotizar%20{{ product.name|urlencode }}" target="_blank" class="font-sans text-sm font-bold opacity-80 hover:opacity-100 transition-opacity uppercase tracking-widest border-b border-brand-dark pb-2 inline-block w-max mx-auto md:mx-0">
+                        Cotizar Diseño Personalizado
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+
+        {% else %}
+        <section class="w-full flex flex-col">
+            {% for product in category.products.all %}
+            <div class="w-full min-h-[85vh] flex flex-col {% if forloop.counter|divisibleby:2 %}md:flex-row-reverse{% else %}md:flex-row{% endif %} {{ product.background_color }} border-t border-brand-dark/5">
+                
+                <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative overflow-hidden group">
+                    <div class="flex overflow-x-auto snap-x snap-mandatory h-full w-full hide-scrollbar scroll-smooth">
+                        {% if product.images.all %}
+                            {% for image_obj in product.images.all %}
+                            <img src="{{ image_obj.image.url }}" class="w-full h-full object-cover flex-none snap-center" alt="{{ product.name }}">
+                            {% endfor %}
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-black/5 opacity-50"><span class="font-serif text-2xl">Imagen Producto</span></div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-left">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight mb-8" style="text-wrap: balance;">
+                        {{ product.name }}
+                    </h2>
+                    <p class="font-serif text-2xl font-light mb-12 leading-relaxed" style="text-wrap: balance;">
+                        {{ product.description }}
+                    </p>
+                    <ul class="font-sans text-xl md:text-2xl space-y-4 font-light mb-16">
+                        {% if product.min_order %}
+                        <li class="flex items-center gap-4"><span class="text-sm opacity-50">&bull;</span> {{ product.min_order }}</li>
+                        {% endif %}
+                        <li class="flex items-center gap-4"><span class="text-sm opacity-50">&bull;</span> Valor unitario accesible</li>
+                        <li class="flex items-center gap-4"><span class="text-sm opacity-50">&bull;</span> Producción por preventa</li>
+                    </ul>
+                    <a href="https://wa.me/56900000000?text=Hola,%20quisiera%20encargar%20{{ product.name|urlencode }}" target="_blank" class="bg-brand-lila text-white px-10 py-4 rounded-full font-sans tracking-widest uppercase text-xs font-bold shadow-md hover:bg-[#c5b5cf] transition-colors inline-block w-max">
+                        Solicitar por Mayor
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+    {% endfor %}
+{% else %}
+    <section class="w-full bg-brand-cream py-32 text-center opacity-50">
+        <h2 class="text-3xl font-serif">Catálogo próximamente disponible.</h2>
+    </section>
+{% endif %}
+</div>
+
+<section class="w-full bg-brand-cream py-32 px-8 md:px-16 lg:px-24">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center">
+        <div class="w-full md:w-1/2 flex flex-col justify-center relative md:pr-10 text-center md:text-left">
+            <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-snug z-10 mb-12 md:mb-0" style="text-wrap: balance;">
+                ¿Porque elegir<br>Kuyasqay?
+            </h2>
+        </div>
+        <div class="w-full md:w-1/2 flex flex-col gap-12 md:pl-10 text-center md:text-left z-10 font-serif text-2xl leading-relaxed font-light">
+            <div class="space-y-2">
+                <p>Propósito emocional</p>
+                <p class="opacity-80 text-xl font-sans font-light">cada producto comunica un mensaje</p>
+            </div>
+            <div class="space-y-2">
+                <p>Hecho a mano</p>
+                <p class="opacity-80 text-xl font-sans font-light">no producción en serie<br>Producción limitada</p>
+            </div>
+            <div class="space-y-2">
+                <p>Identidad y raíz</p>
+                <p class="opacity-80 text-xl font-sans font-light">quechua + territorio + alma maulina</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="w-full bg-brand-lightpurple/30 py-32 px-8 md:px-12 lg:px-24">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif text-center mb-24 leading-tight max-w-4xl mx-auto" style="text-wrap: balance;">
+            Lo que dicen quienes regalaron Kuyasqay
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-20">
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="flex flex-col text-center">
+                    {% if review.image %}
+                    <div class="w-full aspect-square bg-white shadow-soft mb-10 overflow-hidden relative rounded-2xl">
+                        <img src="{{ review.image.url }}" class="w-full h-full object-cover opacity-80" alt="Reseña">
+                    </div>
+                    {% endif %}
+                    <div class="font-serif leading-relaxed flex flex-col h-full">
+                        <p class="text-xl font-medium italic mb-8" style="text-wrap: balance;">
+                            <span class="text-2xl not-italic mr-1 text-[#4aa5e6]">💬</span>
+                            "{{ review.text }}"
+                        </p>
+                        <p class="font-sans font-bold text-sm tracking-wide mt-auto opacity-70 uppercase">— {{ review.client_name }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-span-1 md:col-span-3 text-center opacity-50 italic">Aún no hay reseñas cargadas.</div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="w-full bg-brand-cream/80 py-32 px-8 md:px-16 lg:px-24 border-t border-brand-dark/5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center">
+        <div class="w-full md:w-1/2 flex justify-center text-center">
+            <h2 class="text-6xl md:text-7xl lg:text-8xl font-serif font-light tracking-wide flex items-center justify-center gap-4">
+                Cómo pedir <span class="text-4xl text-brand-lila opacity-80 relative -top-6">✦</span>
+            </h2>
+        </div>
+        <div class="w-full md:w-1/2 flex flex-col gap-10 md:gap-14 md:pl-10 text-center md:text-left font-serif text-3xl leading-relaxed">
+            <p>1. Escríbenos por Whatsapp</p>
+            <p>2. Elije tu producto</p>
+            <p class="leading-normal" style="text-wrap: balance;">3. Agendar retiro o delivery en<br>Talca urbano y Maule norte</p>
+            <div class="mt-8 flex flex-col items-center md:items-start font-sans">
+                <a href="https://wa.me/56900000000" target="_blank" class="hover:underline opacity-80 mb-3 font-bold tracking-widest uppercase text-sm border-b border-brand-dark">Link WhatsApp</a>
+                <p class="font-medium tracking-wide text-lg">Encarga tu experiencia Kuyasqay hoy 👆🏻</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="w-full bg-[#efedea]/50 min-h-[85vh] flex flex-col lg:flex-row pb-20">
+    <div class="w-full lg:w-1/2 relative bg-brand-dark/5 h-[60vh] lg:h-auto overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover object-top opacity-90" alt="Carolina Mena">
+        <div class="absolute inset-x-0 bottom-10 flex justify-center z-10">
+            <span class="bg-white/90 backdrop-blur px-8 py-3 rounded-full font-serif font-bold text-lg shadow-soft tracking-wide">Carolina Mena - Kuyasqay</span>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-center lg:text-left">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif mb-16">
+            La creadora
+        </h2>
+        <div class="font-serif text-2xl lg:text-3xl space-y-12 leading-relaxed font-light max-w-xl mx-auto lg:mx-0" style="text-wrap: balance;">
+            <p>Hola buen día, soy Carolina Mena, creadora de pastelería Kuyasqay, nuestro taller está en la comuna de Maule, Talca.</p>
+            <p>Creo Pastelería con propósito emocional, convencida de que un dulce puede ser un puente en las personas. Todo lo que ves aquí está hecho con Kuyay Maki.</p>
+            <p class="pt-6 opacity-80 italic font-medium">Te acompaño desde el 2021.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
