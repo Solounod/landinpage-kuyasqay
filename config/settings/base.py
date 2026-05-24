@@ -88,4 +88,7 @@ JAZZMIN_SETTINGS = {
     "order_with_respect_to": ["core.product", "core.category", "core.heroimage", "core.review"],
     # Permite al administrador usar el "UI Builder"
     "show_ui_builder": True,
+    "changeform_format": "single", 
+    # Ocultar modelos específicos
+    "hide_models": ["auth.Group"],
 }

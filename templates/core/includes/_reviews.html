@@ -1,0 +1,80 @@
+<style>
+    /* Animación para la cinta infinita */
+    @keyframes scroll-marquee {
+        0% { transform: translateX(0); }
+        /* Se mueve exactamente la mitad de su ancho total para hacer el loop perfecto */
+        100% { transform: translateX(-50%); } 
+    }
+    .marquee-container {
+        display: flex;
+        width: max-content;
+        /* Puedes cambiar '40s' por un número menor si quieres que vaya más rápido */
+        animation: scroll-marquee 40s linear infinite;
+    }
+    /* El carrusel se pausa si el usuario pone el mouse encima para poder leer */
+    .marquee-container:hover {
+        animation-play-state: paused;
+    }
+</style>
+
+<section class="w-full bg-brand-lightpurple/30 py-32 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 mb-24">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif text-center leading-tight max-w-4xl mx-auto" style="text-wrap: balance;">
+            Lo que dicen quienes regalaron Kuyasqay
+        </h2>
+    </div>
+
+    {% if reviews %}
+    <div class="w-full relative">
+        <!-- Contenedor que hace el scroll -->
+        <div class="marquee-container gap-10 md:gap-16 px-6">
+            
+            <!-- BLOQUE 1: Las reseñas originales -->
+            {% for review in reviews %}
+            <div class="w-72 md:w-80 flex-shrink-0 flex flex-col text-center">
+                {% if review.image %}
+                <div class="w-full aspect-square bg-white shadow-soft mb-8 overflow-hidden relative rounded-2xl">
+                    <img src="{{ review.image.url }}" class="w-full h-full object-cover opacity-80 transition-all duration-500 hover:opacity-100 hover:scale-105" alt="Rese&ntilde;a">
+                </div>
+                {% endif %}
+                <div class="font-serif leading-relaxed flex flex-col">
+                    <p class="text-xl font-medium italic mb-6" style="text-wrap: balance;">
+                        <span class="text-2xl not-italic mr-1 text-brand-lila">&ldquo;</span>
+                        {{ review.text }}
+                        <span class="text-2xl not-italic ml-1 text-brand-lila">&rdquo;</span>
+                    </p>
+                    <!-- Aquí quitamos mt-auto, pusimos mt-2, y cambiamos uppercase por capitalize -->
+                    <p class="font-sans font-bold text-sm tracking-wide mt-2 opacity-70 capitalize">
+                        &mdash; {{ review.client_name }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- BLOQUE 2: Duplicamos el loop para que el efecto sea infinito y no se corte -->
+            {% for review in reviews %}
+            <div class="w-72 md:w-80 flex-shrink-0 flex flex-col text-center" aria-hidden="true">
+                {% if review.image %}
+                <div class="w-full aspect-square bg-white shadow-soft mb-8 overflow-hidden relative rounded-2xl">
+                    <img src="{{ review.image.url }}" class="w-full h-full object-cover opacity-80 transition-all duration-500 hover:opacity-100 hover:scale-105" alt="Rese&ntilde;a">
+                </div>
+                {% endif %}
+                <div class="font-serif leading-relaxed flex flex-col">
+                    <p class="text-xl font-medium italic mb-6" style="text-wrap: balance;">
+                        <span class="text-2xl not-italic mr-1 text-brand-lila">&ldquo;</span>
+                        {{ review.text }}
+                        <span class="text-2xl not-italic ml-1 text-brand-lila">&rdquo;</span>
+                    </p>
+                    <p class="font-sans font-bold text-sm tracking-wide mt-2 opacity-70 capitalize">
+                        &mdash; {{ review.client_name }}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    {% else %}
+        <div class="text-center opacity-50 italic pb-12">A&uacute;n no hay rese&ntilde;as cargadas.</div>
+    {% endif %}
+</section>

@@ -1,0 +1,55 @@
+{% with counter=forloop.counter %}
+<div class="w-full min-h-[85vh] flex flex-col {% if counter|divisibleby:2 %}md:flex-row-reverse{% else %}md:flex-row{% endif %} {{ product.background_color }} border-t border-brand-dark/5">
+    <div class="w-full md:w-1/2 h-[55vh] md:h-auto relative overflow-hidden group">
+        {% if product.images.all %}
+        <div class="swiper product-swiper h-full w-full">
+            <div class="swiper-wrapper">
+                {% for image_obj in product.images.all %}
+                <div class="swiper-slide">
+                    <img src="{{ image_obj.image.url }}" class="w-full h-full object-cover" alt="{{ product.name }}">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        {% else %}
+        <div class="h-full w-full flex items-center justify-center bg-black/5">
+            <span class="font-serif text-2xl opacity-40">&mdash;</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-center md:text-left">
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-tight mb-8" style="text-wrap: balance;">
+            {{ product.name }}
+        </h2>
+        <p class="font-serif text-2xl font-light mb-12 leading-relaxed opacity-90" style="text-wrap: balance;">
+            {{ product.description }}
+        </p>
+
+        {% if product.variants.exists %}
+        <ul class="font-sans text-xl md:text-2xl space-y-4 font-light mb-12">
+            {% for variant in product.variants.all %}
+            <li class="flex justify-between md:justify-start md:gap-4 items-center border-b border-brand-dark/10 pb-1">
+                <span class="flex items-center gap-2">
+                    <span class="text-sm opacity-40">&bull;</span>
+                    <span>{{ variant.name }}</span>
+                </span>
+                <span class="font-medium ml-auto md:ml-4">${{ variant.price }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if product.min_order %}
+        <p class="font-sans text-sm uppercase tracking-wider opacity-60 mb-6">{{ product.min_order }}</p>
+        {% endif %}
+
+        <a href="https://wa.me/56900000000?text=Hola,%20quisiera%20encargar%20{{ product.name|urlencode }}" target="_blank" class="bg-brand-lila text-white px-10 py-4 rounded-full font-sans tracking-widest uppercase text-xs font-bold shadow-md hover:bg-[#c5b5cf] transition-all duration-300 inline-block w-max mx-auto md:mx-0">
+            Solicitar por WhatsApp
+        </a>
+    </div>
+</div>
+{% endwith %}

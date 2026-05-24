@@ -1,0 +1,38 @@
+<section class="w-full min-h-[85vh] flex flex-col md:flex-row bg-brand-cream border-b border-brand-dark/5">
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 md:py-0 text-center md:text-left">
+        <span class="font-sans font-bold tracking-[0.2em] text-xs md:text-sm text-[#5d4037] uppercase mb-10">
+            Kuyasqay . Dulce Coraz&oacute;n
+        </span>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-tight mb-16" style="text-wrap: balance;">
+            Pasteler&iacute;a artesanal<br> con identidad<br> maulina
+        </h1>
+        <div class="opacity-80 font-sans tracking-widest text-sm uppercase mb-12 flex flex-col items-center md:items-start md:ml-10">
+            <p class="mb-4">Producci&oacute;n limitada.</p>
+            <p class="normal-case tracking-normal text-xs md:text-sm">Elaboraci&oacute;n artesanal en Talca, Regi&oacute;n del Maule</p>
+        </div>
+        <a href="https://wa.me/56900000000" target="_blank" class="font-serif text-xl tracking-wide hover:opacity-70 transition-all duration-300 mt-4 md:ml-10 inline-block">
+            Agendar por WhatsApp
+        </a>
+    </div>
+
+    <div class="w-full md:w-1/2 h-[50vh] md:h-auto relative bg-brand-cream overflow-hidden">
+        {% if hero_images %}
+        <div class="swiper hero-swiper h-full w-full">
+            <div class="swiper-wrapper">
+                {% for hero in hero_images %}
+                <div class="swiper-slide overflow-hidden">
+                    <img src="{{ hero.image.url }}" alt="{{ hero.title }}" class="w-full h-full object-cover animate-ken-burns" style="will-change: transform;">
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        {% else %}
+        <div class="h-full w-full flex items-center justify-center bg-black/5">
+            <span class="font-serif opacity-50">Sube fotos de portada en el Admin</span>
+        </div>
+        {% endif %}
+    </div>
+</section>

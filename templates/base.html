@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,7 +24,7 @@
                         'brand-cream': '#f5efe6',
                         'brand-lila': '#c4b3dd',
                         'brand-lightpurple': '#d3ccdb',
-                        'brand-dark': '#4a3933', // Un tono más café/cálido que el gris puro
+                        'brand-dark': '#4a3933',
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
@@ -27,29 +32,69 @@
                     },
                     boxShadow: {
                         'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    keyframes: {
+                        'ken-burns': {
+                            '0%': { transform: 'scale(1)' },
+                            '100%': { transform: 'scale(1.1)' },
+                        }
+                    },
+                    animation: {
+                        'ken-burns': 'ken-burns 15s ease-in-out infinite alternate',
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
-        /* Smooth scrolling general */
         html { scroll-behavior: smooth; }
-        
-        /* Ocultar barra de scroll en los carruseles manteniendo la funcionalidad */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
         body { @apply bg-brand-cream text-brand-dark font-sans antialiased; }
+
+        /* Swiper custom styles */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #4a3933 !important;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .swiper:hover .swiper-button-next,
+        .swiper:hover .swiper-button-prev {
+            opacity: 0.7;
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1.5rem !important;
+            font-weight: bold;
+        }
+        .swiper-pagination-bullet {
+            background: #4a3933 !important;
+            opacity: 0.3;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .swiper-pagination-bullet-active {
+            opacity: 0.8 !important;
+            transform: scale(1.3);
+        }
+
+        /* Product Swiper — lighter bullets on dark backgrounds */
+        .product-swiper .swiper-pagination-bullet {
+            background: #fff !important;
+            opacity: 0.4;
+        }
+        .product-swiper .swiper-pagination-bullet-active {
+            opacity: 0.9 !important;
+        }
     </style>
+
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body class="min-h-screen flex flex-col bg-brand-cream text-brand-dark">
 
-    <nav class="w-full py-6 px-4 md:px-8 bg-brand-cream/90 backdrop-blur-md sticky top-0 z-50 border-b border-brand-dark/5">
+    <nav id="mainNav" class="w-full py-6 px-4 md:px-8 bg-transparent sticky top-0 z-50 transition-all duration-500">
         <div class="max-w-7xl mx-auto flex justify-center items-center">
-            <a href="/" class="text-2xl md:text-3xl font-serif font-bold tracking-[0.2em] transition hover:opacity-80">KUYASQAY</a>
+            <a href="/" class="text-2xl md:text-3xl font-serif font-bold tracking-[0.2em] transition-all duration-300 hover:opacity-70">KUYASQAY</a>
         </div>
     </nav>
 
@@ -61,10 +106,40 @@
         <div class="max-w-4xl mx-auto flex flex-col items-center justify-center gap-4">
             <span class="text-2xl font-serif font-bold tracking-[0.2em] opacity-50 mb-2">KUYASQAY</span>
             <p class="font-sans opacity-70 text-sm md:text-base">
-                © 2026 Kuyasqay Pastelería. Talca, Región del Maule.<br class="md:hidden"> Hecho con &hearts;
+                &copy; 2026 Kuyasqay Pasteler&iacute;a. Talca, Regi&oacute;n del Maule.<br class="md:hidden"> Hecho con &hearts;
             </p>
         </div>
     </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 1000,
+            offset: 100,
+        });
+    </script>
+
+    <!-- Navbar glassmorphism on scroll -->
+    <script>
+        const nav = document.getElementById('mainNav');
+        const glassClasses = ['bg-brand-cream/90', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-brand-dark/5'];
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 50) {
+                nav.classList.add(...glassClasses);
+                nav.classList.remove('bg-transparent');
+            } else {
+                nav.classList.remove(...glassClasses);
+                nav.classList.add('bg-transparent');
+            }
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
 
 </body>
 </html>
