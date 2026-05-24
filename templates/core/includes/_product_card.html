@@ -1,6 +1,7 @@
+{% widthratio forloop.counter 1 150 as card_delay %}
 {% with counter=forloop.counter %}
 <div class="w-full min-h-[85vh] flex flex-col {% if counter|divisibleby:2 %}md:flex-row-reverse{% else %}md:flex-row{% endif %} {{ product.background_color }} border-t border-brand-dark/5">
-    <div class="w-full md:w-1/2 h-[55vh] md:h-auto relative overflow-hidden group">
+    <div class="w-full md:w-1/2 h-[55vh] md:h-auto relative overflow-hidden group" data-aos="fade-right" data-aos-delay="{{ card_delay }}">
         {% if product.images.all %}
         <div class="swiper product-swiper h-full w-full">
             <div class="swiper-wrapper">
@@ -21,7 +22,7 @@
         {% endif %}
     </div>
 
-    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-center md:text-left">
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-24 text-center md:text-left" data-aos="fade-left" data-aos-delay="{{ card_delay }}">
         <h2 class="text-5xl md:text-6xl lg:text-7xl font-serif leading-tight mb-8" style="text-wrap: balance;">
             {{ product.name }}
         </h2>
